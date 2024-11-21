@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -59,6 +62,9 @@ app.get('/animals/:id', (req, res) => {
     res.json(results[0]);
   });
 });
+
+    console.log(results);
+    res.render('animals', { animals: results });
 
 app.put('/animals/:id', (req, res) => {
   const { id } = req.params;
