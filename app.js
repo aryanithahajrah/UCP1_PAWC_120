@@ -6,12 +6,11 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Set up MySQL connection
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root', // replace with your database username
-  password: '', // replace with your database password
-  database: 'zoo' // replace with your database name
+  user: 'root', 
+  password: '', 
+  database: 'zoo' 
 });
 
 db.connect(err => {
@@ -22,7 +21,7 @@ db.connect(err => {
   console.log('Connected to MySQL database');
 });
 
-// 1. Get all animals (GET)
+
 app.get('/animals', (req, res) => {
   db.query('SELECT * FROM animals', (err, results) => {
     if (err) {
@@ -33,7 +32,6 @@ app.get('/animals', (req, res) => {
   });
 });
 
-// 2. Add a new animal (POST)
 app.post('/animals', (req, res) => {
   const { name, species, age, description } = req.body;
 
@@ -47,7 +45,6 @@ app.post('/animals', (req, res) => {
   });
 });
 
-// 3. Get an animal by ID for editing (GET)
 app.get('/animals/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM animals WHERE id = ?';
@@ -63,7 +60,6 @@ app.get('/animals/:id', (req, res) => {
   });
 });
 
-// 4. Update an animal's details (PUT)
 app.put('/animals/:id', (req, res) => {
   const { id } = req.params;
   const { name, species, age, description } = req.body;
@@ -78,7 +74,6 @@ app.put('/animals/:id', (req, res) => {
   });
 });
 
-// 5. Delete an animal (DELETE)
 app.delete('/animals/:id', (req, res) => {
   const { id } = req.params;
 
@@ -91,7 +86,7 @@ app.delete('/animals/:id', (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).send('Animal not found');
     }
-    res.status(204).send(); // No content response
+    res.status(204).send();
   });
 });
 
